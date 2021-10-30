@@ -1,7 +1,8 @@
 from __future__ import annotations
-from typing import Iterable, Sequence
+from typing import Iterable, Sequence, TypeVar
 from functools import lru_cache
 
+T = TypeVar('T')
 
 class Sudoku:
     """A mutable sudoku puzzle."""
@@ -14,7 +15,14 @@ class Sudoku:
             # for element in puzzle_row:
             #     row += str(element)
 
-            self._grid.append(puzzle_row)
+            self._grid.append(self.list_to_string(puzzle_row))
+    
+    # Convert list to string
+    def list_to_string(self, value):
+
+        string = ''.join(map(str, value))
+
+        return string
     
 
     def place(self, value: int, x: int, y: int) -> None:
@@ -66,7 +74,7 @@ class Sudoku:
             if value in options:
                 options.remove(value)
 
-        return options
+        return list(options)
 
     def next_empty_index(self) -> tuple[int, int]:
         """
