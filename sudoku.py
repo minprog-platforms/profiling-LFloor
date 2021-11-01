@@ -1,3 +1,13 @@
+"""
+ sudoku.py
+
+ Lieneke Barsukoff Poniatowsky
+ 31/09/2021
+
+ - Test rotation of matrix (a list of lists) 90 degrees clockwise.
+
+"""
+
 from __future__ import annotations
 from typing import Iterable, Sequence
 from functools import lru_cache
@@ -6,13 +16,10 @@ from functools import lru_cache
 class Sudoku:
     """A mutable sudoku puzzle."""
 
-    def __init__(self, puzzle: Iterable[Iterable]):  # add row at ones instead of per element
+    def __init__(self, puzzle: Iterable[Iterable]):
         self._grid: list[str] = []
 
         for puzzle_row in puzzle:
-
-            # for element in puzzle_row:
-            #     row += str(element)
 
             self._grid.append(self.list_to_string(puzzle_row))
 
@@ -42,7 +49,7 @@ class Sudoku:
         new_row = row[:x] + "0" + row[x + 1:]
         self._grid[y] = new_row
 
-    def value_at(self, x: int, y: int) -> int:  # for loop weggehaald
+    def value_at(self, x: int, y: int) -> int:
         """Returns the value at x,y."""
 
         row = self._grid[y]
@@ -50,7 +57,7 @@ class Sudoku:
 
         return value
 
-    def options_at(self, x: int, y: int) -> Sequence[int]:  # set instead of list, try xept was langzamer
+    def options_at(self, x: int, y: int) -> Sequence[int]:
         """Returns all possible values (options) at x,y."""
         options = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 
@@ -81,8 +88,6 @@ class Sudoku:
         """
         next_x, next_y = -1, -1
 
-        # if i in sudoku
-
         for y in range(9):
             for x in range(9):
                 if self.value_at(x, y) == 0 and next_x == -1 and next_y == -1:
@@ -90,7 +95,7 @@ class Sudoku:
 
         return next_x, next_y
 
-    @lru_cache(maxsize=1)  # lru cache
+    @lru_cache(maxsize=1)
     def row_values(self, i: int) -> Sequence[int]:
         """Returns all values at i-th row."""
         values = []
@@ -100,7 +105,7 @@ class Sudoku:
 
         return values
 
-    @lru_cache(maxsize=1)  # lru cache
+    @lru_cache(maxsize=1)
     def column_values(self, i: int) -> Sequence[int]:
         """Returns all values at i-th column."""
         values = []
@@ -110,7 +115,7 @@ class Sudoku:
 
         return values
 
-    @lru_cache(maxsize=1)  # lru cache
+    @lru_cache(maxsize=1)
     def block_values(self, i: int) -> Sequence[int]:
         """
         Returns all values at i-th block.
@@ -130,7 +135,7 @@ class Sudoku:
 
         return values
 
-    def is_solved(self) -> bool:  # set instead of list, combine if - statements
+    def is_solved(self) -> bool:
         """
         Returns True if and only if all rows, columns and blocks contain
         only the numbers 1 through 9. False otherwise.
